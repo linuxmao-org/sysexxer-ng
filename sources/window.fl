@@ -1,0 +1,119 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+i18n_type 1
+i18n_include app_i18n.h
+i18n_function _
+header_name {.h}
+code_name {.cxx}
+decl {\#include <FL/Fl_Hold_Browser.H>} {public global
+}
+
+decl {\#include <memory>} {public global
+}
+
+decl {\#include "window_impl.cc"} {private global
+}
+
+widget_class Main_Window {open
+  xywh {161 204 450 250} type Double visible
+} {
+  decl {static int const width = 450, height = 250;} {public local
+  }
+  code {P.reset(new Impl);} {}
+  Function {~Main_Window()} {} {
+    code {;} {}
+  }
+  Fl_Tabs tabs {open
+    xywh {0 0 455 250}
+  } {
+    Fl_Group tab_send {
+      label Send open
+      xywh {0 25 450 225} labelsize 12
+    } {
+      Fl_Button btn_load {
+        label {@fileopen  Load}
+        callback {P->on_load();}
+        xywh {10 35 90 25} labelsize 12 align 20
+      }
+      Fl_Button btn_send {
+        label {@->  Send}
+        callback {P->on_send();}
+        xywh {10 60 90 25} labelsize 12 align 20
+      }
+      Fl_Browser br_sendlist {
+        callback {P->update_event_data_display(1);}
+        xywh {110 35 330 75} labelsize 12 textsize 12
+        class Fl_Hold_Browser
+      }
+      Fl_Text_Display txt_senddata {
+        xywh {10 120 430 120} labelsize 12 textfont 4 textsize 12
+      }
+      Fl_Progress pb_send {
+        xywh {10 85 90 25} color 49 selection_color 150 labelsize 12
+      }
+    }
+    Fl_Group tab_recv {
+      label Receive open
+      xywh {0 25 450 225} labelsize 12 hide
+    } {
+      Fl_Button btn_receive {
+        label {@<-  Receive}
+        callback {P->on_receive(o->value());}
+        xywh {10 35 90 25} type Toggle labelsize 12 align 20
+      }
+      Fl_Button btn_save {
+        label {@filesave  Save}
+        callback {P->on_save();}
+        xywh {10 60 90 25} labelsize 12 align 20
+      }
+      Fl_Browser br_recvlist {
+        callback {P->update_event_data_display(0);}
+        xywh {110 35 330 75} labelsize 12 textsize 12
+        class Fl_Hold_Browser
+      }
+      Fl_Text_Display txt_recvdata {
+        xywh {10 120 430 120} labelsize 12 textfont 4 textsize 12
+      }
+      Fl_Box lbl_recv {
+        xywh {10 85 90 25} box DOWN_BOX color 150 labelsize 12
+      }
+    }
+    Fl_Group tab_options {
+      label Options open
+      xywh {0 25 450 225} labelsize 12 hide
+    } {
+      Fl_Box {} {
+        label {MIDI interface}
+        xywh {10 35 180 25} labelsize 12 align 20
+      }
+      Fl_Box {} {
+        label {Max Transmission Rate}
+        xywh {10 65 180 25} labelsize 12 align 20
+      }
+      Fl_Choice cb_midi_interface {
+        callback {P->on_change_midi_interface();} open
+        xywh {200 35 155 25} down_box BORDER_BOX labelsize 12 textsize 12
+      } {}
+      Fl_Slider val_sendrate {
+        callback {lbl_sendrate->copy_label(std::to_string((int)val_sendrate->value()).c_str());}
+        xywh {200 65 100 25} type Horizontal labelsize 12 align 8
+      }
+      Fl_Box lbl_sendrate {
+        xywh {300 65 55 25} box DOWN_BOX labelsize 12
+      }
+      Fl_Box {} {
+        label {kb/s}
+        xywh {355 65 55 25} labelsize 12
+      }
+    }
+  }
+  Fl_Box {} {
+    label {Sysexxer NG}
+    xywh {160 0 291 25} box THIN_UP_BOX labeltype EMBOSSED_LABEL labelfont 11 labelsize 20 align 24
+  }
+  decl {struct Impl;} {private local
+  }
+  decl {std::unique_ptr<Impl> P;} {private local
+  }
+  code {P->init(this);} {}
+}
