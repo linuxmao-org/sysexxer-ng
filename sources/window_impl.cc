@@ -279,9 +279,6 @@ bool Main_Window::Impl::handle_midi_input_message(const uint8_t *msg, size_t len
 {
     std::vector<Sysex_Event> &event_recvlist = event_recvlist_;
 
-    if (length < 2 || msg[0] != 0xf0 || msg[length - 1] != 0xf7)
-        return false;
-
     if (receive_first_) {
         event_recvlist.clear();
         receive_first_ = false;
@@ -300,6 +297,9 @@ void Main_Window::Impl::handle_realtime_midi_input(const uint8_t *msg, size_t le
 {
     Impl *P = (Impl *)user_data;
     Ring_Buffer &receive_buffer = *P->receive_buffer_;
+
+    if (length < 2 || msg[0] != 0xf0 || msg[length - 1] != 0xf7)
+        return;
 
     if (receive_buffer.size_free() < sizeof(length) + length)
         return;
