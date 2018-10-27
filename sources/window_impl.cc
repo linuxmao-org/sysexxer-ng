@@ -27,6 +27,8 @@ struct Main_Window::Impl {
     void on_load();
     void on_save();
     void on_send();
+    bool do_load(const char *filename);
+    bool do_save(const char *filename);
     void on_receive(bool enable);
     void on_change_midi_interface();
     void update_event_list_display(int mode);
@@ -75,14 +77,7 @@ void Main_Window::Impl::on_load()
         return;
 
     const char *filename = fnfc.filename();
-    std::vector<Sysex_Event> event_sendlist;
-    if (!load_sysex_file(filename, event_sendlist))
-        return;
-
-    event_sendlist_ = std::move(event_sendlist);
-    update_event_list_display(1);
-    Q->br_sendlist->value(1);
-    update_event_data_display(1);
+    do_load(filename);
 }
 
 void Main_Window::Impl::on_save()
@@ -109,17 +104,39 @@ void Main_Window::Impl::on_save()
             return;
     }
 
-    FILE_u fh(fl_fopen(filename.c_str(), "wb"));
-    if (!fh)
-        return;
+    do_save(filename.c_str());
+}
 
+bool Main_Window::Impl::do_load(const char *filename)
+{
+    std::vector<Sysex_Event> event_sendlist;
+    if (!load_sysex_file(filename, event_sendlist))
+        return false;
+
+    event_sendlist_ = std::move(event_sendlist);
+    update_event_list_display(1);
+    Q->br_sendlist->value(1);
+    update_event_data_display(1);
+
+    return true;
+}
+
+bool Main_Window::Impl::do_save(const char *filename)
+{
+    FILE_u fh(fl_fopen(filename, "wb"));
+    if (!fh)
+        return false;
+
+    const std::vector<Sysex_Event> &event_list = event_recvlist_;
     for (const Sysex_Event &event : event_list)
         fwrite(event.data.get(), event.size, 1, fh.get());
 
     if (fflush(fh.get()) != 0) {
-        fl_unlink(filename.c_str());
-        return;
+        fl_unlink(filename);
+        return false;
     }
+
+    return true;
 }
 
 void Main_Window::Impl::on_send()

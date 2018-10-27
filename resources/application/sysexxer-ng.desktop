@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Sysexxer NG
+Comment=A tool to send and receive MIDI SysEx data
+Comment[fr]=Un émetteur et récepteur de données MIDI SysEx
+Exec=sysexxer-ng
+Icon=sysexxer-ng
+Terminal=false
+Categories=AudioVideo;Audio
+MimeType=application/x-syx

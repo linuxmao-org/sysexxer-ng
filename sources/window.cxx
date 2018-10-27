@@ -187,3 +187,7 @@ end();
 Main_Window::~Main_Window() {
   ;
 }
+
+void Main_Window::load_file(const char *filename) {
+  P->do_load(filename);
+}

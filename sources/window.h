@@ -72,5 +72,6 @@ private:
   std::unique_ptr<Impl> P; 
 public:
   ~Main_Window();
+  void load_file(const char *filename);
 };
 #endif

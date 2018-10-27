@@ -23,6 +23,11 @@ widget_class Main_Window {open
   Function {~Main_Window()} {} {
     code {;} {}
   }
+  Function {load_file(const char *filename)} {open
+  } {
+    code {P->do_load(filename);} {selected
+    }
+  }
   Fl_Tabs tabs {open
     xywh {0 0 455 250}
   } {
