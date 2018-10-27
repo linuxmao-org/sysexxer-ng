@@ -21,3 +21,12 @@ struct Stdc_Deleter {
 __attribute__((format(printf, 1, 2)))
 std::string astrprintf(const char *fmt, ...);
 std::string vastrprintf(const char *fmt, va_list ap);
+
+inline bool is_path_separator(unsigned c)
+{
+#if !defined(_WIN32)
+    return c == '/';
+#else
+    return c == '/' || c == '\\';
+#endif
+}

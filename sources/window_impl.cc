@@ -23,6 +23,7 @@ struct Main_Window::Impl {
     bool receive_first_ = false;
     std::unique_ptr<Ring_Buffer> receive_buffer_;
     std::vector<uint8_t> receive_tmpbuf_;
+    std::string last_directory_;
     void init(Main_Window *Q);
     void on_load();
     void on_save();
@@ -72,12 +73,19 @@ void Main_Window::Impl::on_load()
     fnfc.title(_("Load"));
     fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
     fnfc.filter(_("System-exclusive dump\t*.syx"));
+    if (!last_directory_.empty())
+        fnfc.directory(last_directory_.c_str());
 
     if (fnfc.show() != 0)
         return;
 
     const char *filename = fnfc.filename();
     do_load(filename);
+
+    size_t filenamepos = strlen(filename);
+    while (filenamepos > 0 && !is_path_separator(filename[filenamepos - 1]))
+        --filenamepos;
+    last_directory_.assign(filename, filenamepos);
 }
 
 void Main_Window::Impl::on_save()
@@ -90,6 +98,8 @@ void Main_Window::Impl::on_save()
     fnfc.title(_("Save"));
     fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
     fnfc.filter(_("System-exclusive dump\t*.syx"));
+    if (!last_directory_.empty())
+        fnfc.directory(last_directory_.c_str());
 
     if (fnfc.show() != 0)
         return;
@@ -105,6 +115,11 @@ void Main_Window::Impl::on_save()
     }
 
     do_save(filename.c_str());
+
+    size_t filenamepos = filename.size();
+    while (filenamepos > 0 && !is_path_separator(filename[filenamepos - 1]))
+        --filenamepos;
+    last_directory_.assign(filename, filenamepos);
 }
 
 bool Main_Window::Impl::do_load(const char *filename)
