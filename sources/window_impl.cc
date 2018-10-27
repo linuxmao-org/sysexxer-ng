@@ -119,7 +119,7 @@ void Main_Window::Impl::on_save()
     size_t filenamepos = filename.size();
     while (filenamepos > 0 && !is_path_separator(filename[filenamepos - 1]))
         --filenamepos;
-    last_directory_.assign(filename, filenamepos);
+    last_directory_.assign(filename.c_str(), filenamepos);
 }
 
 bool Main_Window::Impl::do_load(const char *filename)
