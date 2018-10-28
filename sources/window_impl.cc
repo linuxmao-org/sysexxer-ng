@@ -179,8 +179,11 @@ void Main_Window::Impl::on_save()
 bool Main_Window::Impl::do_load(const char *filename)
 {
     std::vector<Sysex_Event> event_sendlist;
-    if (!load_sysex_file(filename, event_sendlist))
+    if (!load_sysex_file(filename, event_sendlist)) {
+        fl_message_title(_("Error"));
+        fl_alert("%s", _("Could not load the system-exclusive file."));
         return false;
+    }
 
     event_sendlist_ = std::move(event_sendlist);
     update_event_list_display(1);
@@ -193,8 +196,11 @@ bool Main_Window::Impl::do_load(const char *filename)
 bool Main_Window::Impl::do_save(const char *filename)
 {
     FILE_u fh(fl_fopen(filename, "wb"));
-    if (!fh)
+    if (!fh) {
+        fl_message_title(_("Error"));
+        fl_alert("%s", _("Could not save the system-exclusive file."));
         return false;
+    }
 
     const std::vector<Sysex_Event> &event_list = event_recvlist_;
     for (const Sysex_Event &event : event_list)
@@ -202,6 +208,8 @@ bool Main_Window::Impl::do_save(const char *filename)
 
     if (fflush(fh.get()) != 0) {
         fl_unlink(filename);
+        fl_message_title(_("Error"));
+        fl_alert("%s", _("Could not save the system-exclusive file."));
         return false;
     }
 
