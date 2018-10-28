@@ -25,8 +25,7 @@ widget_class Main_Window {open
   }
   Function {load_file(const char *filename)} {open
   } {
-    code {P->do_load(filename);} {selected
-    }
+    code {P->do_load(filename);} {}
   }
   Fl_Tabs tabs {open
     xywh {0 0 455 250}
@@ -100,7 +99,7 @@ widget_class Main_Window {open
         xywh {200 35 155 25} down_box BORDER_BOX labelsize 12 textsize 12
       } {}
       Fl_Slider val_sendrate {
-        callback {lbl_sendrate->copy_label(std::to_string((int)val_sendrate->value()).c_str());}
+        callback {P->on_change_send_rate();}
         xywh {200 65 100 25} type Horizontal labelsize 12 align 8
       }
       Fl_Box lbl_sendrate {

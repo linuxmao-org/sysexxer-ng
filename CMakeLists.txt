@@ -20,6 +20,7 @@ find_package(FLTK REQUIRED)
 
 add_executable(sysexxer-ng
   "sources/main.cc"
+  "sources/config.cc"
   "sources/window.cxx"
   "sources/system_exclusive.cc"
   "sources/sysex_send.cc"
@@ -33,6 +34,10 @@ target_link_libraries(sysexxer-ng PRIVATE "${FLTK_LIBRARIES}")
 
 include(RtMidi)
 target_link_libraries(sysexxer-ng PRIVATE RtMidi)
+
+add_library(simpleini STATIC "thirdparty/simpleini/ConvertUTF.cpp")
+target_include_directories(simpleini PUBLIC "thirdparty/simpleini")
+target_link_libraries(sysexxer-ng PRIVATE simpleini)
 
 add_library(ring_buffer STATIC "thirdparty/ring_buffer/ring_buffer.cpp")
 target_include_directories(ring_buffer PUBLIC "thirdparty/ring_buffer")

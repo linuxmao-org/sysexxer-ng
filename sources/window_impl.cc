@@ -7,6 +7,7 @@
 #include "system_exclusive.h"
 #include "sysex_send.h"
 #include "utility.h"
+#include "config.h"
 #include "app_i18n.h"
 #include "device/midi.h"
 #include "device/midi_apis.h"
@@ -32,6 +33,7 @@ struct Main_Window::Impl {
     bool do_save(const char *filename);
     void on_receive(bool enable);
     void on_change_midi_interface();
+    void on_change_send_rate();
     void update_event_list_display(int mode);
     void update_event_data_display(int mode);
     bool handle_midi_input_message(const uint8_t *msg, size_t length);
@@ -41,13 +43,28 @@ struct Main_Window::Impl {
 
 static const double midi_input_check_interval = 0.05;
 
+enum {
+    Send_Rate_Min = 1,
+    Send_Rate_Max = 100,
+    Send_Rate_Default = 10,
+};
+
 void Main_Window::Impl::init(Main_Window *Q)
 {
     this->Q = Q;
 
+    CSimpleIni &settings = Config::get_settings();
+
     receive_buffer_.reset(new Ring_Buffer(512 * 1024));
 
     Midi_Interface &midi = Midi_Interface::instance();
+
+    if (const char *api_id = settings.GetValue("", "midi-interface")) {
+        RtMidi::Api api = find_midi_api(api_id);
+        if (api != RtMidi::Api::UNSPECIFIED)
+            midi.switch_api(api);
+    }
+
     midi.open_input_port(~0u);
     midi.open_output_port(~0u);
 
@@ -58,9 +75,12 @@ void Main_Window::Impl::init(Main_Window *Q)
     }
     Q->cb_midi_interface->value(compiled_midi_api_index(midi.current_api()));
 
-    Q->val_sendrate->range(1, 100);
+    Q->val_sendrate->range(Send_Rate_Min, Send_Rate_Max);
+    long send_rate = settings.GetLongValue("", "max-transmission-rate", Send_Rate_Default);
+    send_rate = (send_rate < Send_Rate_Min) ? Send_Rate_Min : send_rate;
+    send_rate = (send_rate > Send_Rate_Max) ? Send_Rate_Max : send_rate;
+    Q->val_sendrate->value(send_rate);
     Q->val_sendrate->step(1);
-    Q->val_sendrate->value(10);
     Q->val_sendrate->do_callback();
 
     Q->pb_send->hide();
@@ -227,6 +247,21 @@ void Main_Window::Impl::on_change_midi_interface()
     midi.switch_api(api);
     midi.open_input_port(~0u);
     midi.open_output_port(~0u);
+
+    CSimpleIni &settings = Config::get_settings();
+    settings.SetValue("", "midi-interface", midi_api_id(midi.current_api()));
+    Config::save_settings();
+}
+
+void Main_Window::Impl::on_change_send_rate()
+{
+    int value = Q->val_sendrate->value();
+    std::string label = std::to_string((int)value);
+    Q->lbl_sendrate->copy_label(label.c_str());
+
+    CSimpleIni &settings = Config::get_settings();
+    settings.SetLongValue("", "max-transmission-rate", value);
+    Config::save_settings();
 }
 
 void Main_Window::Impl::update_event_list_display(int mode)

@@ -54,7 +54,7 @@ void Main_Window::cb_cb_midi_interface(Fl_Choice* o, void* v) {
 }
 
 void Main_Window::cb_val_sendrate_i(Fl_Slider*, void*) {
-  lbl_sendrate->copy_label(std::to_string((int)val_sendrate->value()).c_str());
+  P->on_change_send_rate();
 }
 void Main_Window::cb_val_sendrate(Fl_Slider* o, void* v) {
   ((Main_Window*)(o->parent()->parent()->parent()))->cb_val_sendrate_i(o,v);
