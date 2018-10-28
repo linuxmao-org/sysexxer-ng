@@ -18,6 +18,13 @@ set(FLTK_SKIP_IMAGES ON)
 set(FLTK_SKIP_FLUID ON)
 find_package(FLTK REQUIRED)
 
+option(ENABLE_GETTEXT "Enable internationalization with gettext" ON)
+
+if(ENABLE_GETTEXT)
+  find_package(Intl REQUIRED)
+  find_package(Gettext REQUIRED)
+endif()
+
 add_executable(sysexxer-ng
   "sources/main.cc"
   "sources/config.cc"
@@ -27,7 +34,8 @@ add_executable(sysexxer-ng
   "sources/utility.cc"
   "sources/device/midi.cc"
   "sources/device/midi_apis.cc")
-
+target_compile_definitions(sysexxer-ng
+  PRIVATE "LOCALE_DIRECTORY=\"${CMAKE_INSTALL_FULL_LOCALEDIR}\"")
 target_include_directories(sysexxer-ng
   PRIVATE "sources" "${FLTK_INCLUDE_DIR}")
 target_link_libraries(sysexxer-ng PRIVATE "${FLTK_LIBRARIES}")
@@ -43,8 +51,23 @@ add_library(ring_buffer STATIC "thirdparty/ring_buffer/ring_buffer.cpp")
 target_include_directories(ring_buffer PUBLIC "thirdparty/ring_buffer")
 target_link_libraries(sysexxer-ng PRIVATE ring_buffer)
 
+if(ENABLE_GETTEXT)
+  target_compile_definitions(sysexxer-ng PRIVATE "ENABLE_NLS=1")
+  target_include_directories(sysexxer-ng PRIVATE ${Intl_INCLUDE_DIRS})
+  target_link_libraries(sysexxer-ng PRIVATE ${Intl_LIBRARIES})
+  target_include_directories(sysexxer-ng PRIVATE "thirdparty/gettext/include")
+endif()
+
 target_link_libraries(sysexxer-ng PRIVATE "${CMAKE_THREAD_LIBS_INIT}")
 
 install(TARGETS sysexxer-ng DESTINATION "${CMAKE_INSTALL_BINDIR}")
 install(FILES "resources/application/sysexxer-ng.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
 install(FILES "resources/mime/sysexxer-ng-syx.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/mime/packages")
+
+if(ENABLE_GETTEXT)
+  set(TRANSLATIONS "fr")
+  foreach(translation ${TRANSLATIONS})
+    gettext_process_po_files("${translation}" ALL INSTALL_DESTINATION "${CMAKE_INSTALL_LOCALEDIR}" PO_FILES
+      "po/${translation}/sysexxer-ng.po")
+  endforeach()
+endif()

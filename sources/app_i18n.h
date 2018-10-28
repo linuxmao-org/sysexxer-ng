@@ -5,4 +5,11 @@
 
 #pragma once
 
+#if ENABLE_NLS
+#include <gettext.h>
+#define _(x) ((const char *)gettext(x))
+#define _P(c, x) ((const char *)pgettext(c, x))
+#else
 #define _(x) x
+#define _P(c, x) x
+#endif

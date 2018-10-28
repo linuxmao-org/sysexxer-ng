@@ -12,6 +12,13 @@
 
 int main(int argc, char *argv[])
 {
+#if ENABLE_NLS
+    setlocale(LC_ALL, "");
+    const char *locale_path = LOCALE_DIRECTORY "/";
+    bindtextdomain("sysexxer-ng", locale_path);
+    textdomain("sysexxer-ng");
+#endif
+
     bool valid_args = true;
     const char *arg_filename = nullptr;
 
