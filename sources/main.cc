@@ -6,9 +6,14 @@
 #include "window.h"
 #include "app_i18n.h"
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Pixmap.H>
 #include <FL/Fl.H>
 #include <getopt.h>
 #include <stdio.h>
+
+namespace Icon {
+#include "../resources/application/sysexxer-ng.xpm"
+};
 
 int main(int argc, char *argv[])
 {
@@ -47,6 +52,10 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%s\n", _("Invalid arguments"));
         return 1;
     }
+
+    Fl_Pixmap icon(Icon::sysexxer_ng);
+    Fl_RGB_Image image(&icon);
+    Fl_Window::default_icon(&image);
 
     Fl_Double_Window frame(Main_Window::width, Main_Window::height, _("Sysexxer NG"));
     Main_Window contents(0, 0, Main_Window::width, Main_Window::height);

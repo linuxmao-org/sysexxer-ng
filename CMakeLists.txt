@@ -62,6 +62,7 @@ target_link_libraries(sysexxer-ng PRIVATE "${CMAKE_THREAD_LIBS_INIT}")
 
 install(TARGETS sysexxer-ng DESTINATION "${CMAKE_INSTALL_BINDIR}")
 install(FILES "resources/application/sysexxer-ng.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
+install(FILES "resources/application/sysexxer-ng.png" DESTINATION "${CMAKE_INSTALL_DATADIR}/pixmaps")
 install(FILES "resources/mime/sysexxer-ng-syx.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/mime/packages")
 
 if(ENABLE_GETTEXT)
