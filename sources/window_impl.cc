@@ -19,8 +19,10 @@ struct Main_Window::Impl {
     Main_Window *Q = nullptr;
     std::vector<Sysex_Event> event_sendlist_;
     Fl_Text_Buffer txb_senddata_;
+    Fl_Text_Buffer tsb_senddata_;
     std::vector<Sysex_Event> event_recvlist_;
     Fl_Text_Buffer txb_recvdata_;
+    Fl_Text_Buffer tsb_recvdata_;
     bool receive_first_ = false;
     std::unique_ptr<Ring_Buffer> receive_buffer_;
     std::vector<uint8_t> receive_tmpbuf_;
@@ -48,6 +50,12 @@ enum {
     Send_Rate_Max = 100,
     Send_Rate_Default = 10,
 };
+
+static const Fl_Text_Display::Style_Table_Entry style_table[] = {
+    { FL_BLACK, FL_COURIER_BOLD, 12 },
+};
+static constexpr size_t style_count =
+    sizeof(style_table) / sizeof(style_table[0]);
 
 void Main_Window::Impl::init(Main_Window *Q)
 {
@@ -85,6 +93,32 @@ void Main_Window::Impl::init(Main_Window *Q)
 
     Q->pb_send->hide();
     Q->lbl_recv->hide();
+
+    Q->txt_senddata->buffer(&txb_senddata_);
+    Q->txt_recvdata->buffer(&txb_recvdata_);
+
+    const char *send_text = _(
+        "Sending instructions\n"
+        "1. Load a system-exclusive file.\n"
+        "2. Connect the software output to MIDI input.\n"
+        "3. Send, and wait until finished.");
+    const char *recv_text = _(
+        "Receiving instructions\n"
+        "1. Connect the MIDI output to software input.\n"
+        "2. Push the Receive button.\n"
+        "3. Transmit, and turn off Receive when finished.\n"
+        "4. Save the system-exclusive file.");
+
+    txb_senddata_.text(send_text);
+    txb_recvdata_.text(recv_text);
+
+    Q->txt_senddata->buffer(txb_senddata_);
+    Q->txt_senddata->highlight_data(&tsb_senddata_, style_table, style_count, 'A', 0, 0);
+    Q->txt_recvdata->buffer(txb_recvdata_);
+    Q->txt_recvdata->highlight_data(&tsb_recvdata_, style_table, style_count, 'A', 0, 0);
+
+    tsb_senddata_.text(std::string(strchr(send_text, '\n') - send_text, 'A').c_str());
+    tsb_recvdata_.text(std::string(strchr(recv_text, '\n') - recv_text, 'A').c_str());
 }
 
 void Main_Window::Impl::on_load()
@@ -267,7 +301,6 @@ void Main_Window::Impl::on_change_send_rate()
 void Main_Window::Impl::update_event_list_display(int mode)
 {
     const std::vector<Sysex_Event> &event_list = mode ? event_sendlist_ : event_recvlist_;
-    Fl_Text_Buffer &txb = mode ? txb_senddata_ : txb_recvdata_;
     Fl_Browser &br = mode ? *Q->br_sendlist : *Q->br_recvlist;
 
     br.clear();
@@ -284,6 +317,7 @@ void Main_Window::Impl::update_event_data_display(int mode)
     Fl_Text_Buffer &txb = mode ? txb_senddata_ : txb_recvdata_;
     Fl_Browser &br = mode ? *Q->br_sendlist : *Q->br_recvlist;
     Fl_Text_Display &txt = mode ? *Q->txt_senddata : *Q->txt_recvdata;
+    Fl_Text_Buffer &tsb = mode ? tsb_senddata_ : tsb_recvdata_;
 
     unsigned index = br.value() - 1;
     if ((int)index == -1)
@@ -306,8 +340,8 @@ void Main_Window::Impl::update_event_data_display(int mode)
         text += bytetext;
     }
 
-    txt.buffer(txb);
     txb.text(text.c_str());
+    tsb.text("");
 }
 
 bool Main_Window::Impl::handle_midi_input_message(const uint8_t *msg, size_t length)
