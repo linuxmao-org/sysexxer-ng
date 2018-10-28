@@ -6,18 +6,18 @@
 #include <FL/Fl_Hold_Browser.H>
 #include <memory>
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Progress.H>
-#include <FL/Fl_Box.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Slider.H>
 
 class Main_Window : public Fl_Group {
 public:
   Main_Window(int X, int Y, int W, int H, const char *L = 0);
-  static int const width = 450, height = 250; 
+  static int const width = 465, height = 250; 
   Fl_Tabs *tabs;
   Fl_Group *tab_send;
   Fl_Button *btn_load;
