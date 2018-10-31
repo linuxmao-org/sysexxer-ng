@@ -72,3 +72,8 @@ if(ENABLE_GETTEXT)
       "po/${translation}/sysexxer-ng.po")
   endforeach()
 endif()
+
+install(FILES "resources/man/sysexxer-ng.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+foreach(translation "fr")
+  install(FILES "resources/man/sysexxer-ng.${translation}.1" DESTINATION "${CMAKE_INSTALL_MANDIR}/${translation}/man1" RENAME "sysexxer-ng.1")
+endforeach()
