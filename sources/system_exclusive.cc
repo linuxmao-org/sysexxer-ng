@@ -6,6 +6,7 @@
 #include "system_exclusive.h"
 #include "utility.h"
 #include "app_i18n.h"
+#include <fmidi/fmidi.h>
 #include <FL/fl_utf8.h>
 
 struct Manufacturer {
@@ -636,4 +637,51 @@ bool load_sysex_data(const uint8_t *data, size_t size, std::vector<Sysex_Event> 
     }
 
     return count > 0;
+}
+
+static bool load_smf(const fmidi_smf_t *smf, std::vector<Sysex_Event> &event_list)
+{
+    fmidi_seq_u seq(fmidi_seq_new(smf));
+    if (!seq)
+        return false;
+
+    size_t count = 0;
+    fmidi_seq_event_t seqevent;
+    while (fmidi_seq_next_event(seq.get(), &seqevent)) {
+        const fmidi_event_t &event = *seqevent.event;
+        if (event.type != fmidi_event_message)
+            continue;
+
+        const uint8_t *data = event.data;
+        uint32_t length = event.datalen;
+        if (length < 2 || data[0] != 0xf0 || data[length - 1] != 0xf7)
+            continue;
+
+        Sysex_Event syx;
+        syx.data.reset(new uint8_t[length]);
+        syx.size = length;
+        memcpy(syx.data.get(), data, length);
+        event_list.push_back(std::move(syx));
+        ++count;
+    }
+
+    return count > 0;
+}
+
+bool load_smf_file(const char *filename, std::vector<Sysex_Event> &event_list)
+{
+    fmidi_smf_u smf(fmidi_smf_file_read(filename));
+    if (!smf)
+        return false;
+
+    return load_smf(smf.get(), event_list);
+}
+
+bool load_smf_data(const uint8_t *data, size_t size, std::vector<Sysex_Event> &event_list)
+{
+    fmidi_smf_u smf(fmidi_smf_mem_read(data, size));
+    if (!smf)
+        return false;
+
+    return load_smf(smf.get(), event_list);
 }

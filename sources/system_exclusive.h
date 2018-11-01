@@ -15,5 +15,13 @@ struct Sysex_Event {
     std::string description() const;
 };
 
+enum class File_Format {
+    System_Exclusive,
+    Standard_Midi,
+};
+
 bool load_sysex_file(const char *filename, std::vector<Sysex_Event> &event_list);
 bool load_sysex_data(const uint8_t *data, size_t size, std::vector<Sysex_Event> &event_list);
+
+bool load_smf_file(const char *filename, std::vector<Sysex_Event> &event_list);
+bool load_smf_data(const uint8_t *data, size_t size, std::vector<Sysex_Event> &event_list);

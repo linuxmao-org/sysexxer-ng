@@ -17,7 +17,6 @@ Dnd_Hold_Browser::Dnd_Hold_Browser(int x, int y, int w, int h)
 int Dnd_Hold_Browser::handle(int event)
 {
     switch (event) {
-    case FL_PUSH:
     case FL_DND_ENTER:
     case FL_DND_DRAG:
     case FL_DND_RELEASE:

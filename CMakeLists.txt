@@ -52,6 +52,9 @@ add_library(ring_buffer STATIC "thirdparty/ring_buffer/ring_buffer.cpp")
 target_include_directories(ring_buffer PUBLIC "thirdparty/ring_buffer")
 target_link_libraries(sysexxer-ng PRIVATE ring_buffer)
 
+add_subdirectory("thirdparty/fmidi" EXCLUDE_FROM_ALL)
+target_link_libraries(sysexxer-ng PRIVATE fmidi)
+
 if(ENABLE_GETTEXT)
   target_compile_definitions(sysexxer-ng PRIVATE "ENABLE_NLS=1")
   target_include_directories(sysexxer-ng PRIVATE ${Intl_INCLUDE_DIRS})

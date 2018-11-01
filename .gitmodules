@@ -4,3 +4,6 @@
 [submodule "thirdparty/simpleini"]
 	path = thirdparty/simpleini
 	url = https://github.com/jpcima/simpleini.git
+[submodule "thirdparty/fmidi"]
+	path = thirdparty/fmidi
+	url = https://github.com/jpcima/fmidi.git

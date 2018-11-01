@@ -33,7 +33,7 @@ struct Main_Window::Impl {
     void on_save();
     static void on_dnd_load(const char *filename, void *user_data);
     void on_send();
-    bool do_load(const char *filename);
+    bool do_load(const char *filename, File_Format format = (File_Format)-1);
     bool do_save(const char *filename);
     void on_receive(bool enable);
     void on_change_midi_interface();
@@ -131,7 +131,8 @@ void Main_Window::Impl::on_load()
     Fl_Native_File_Chooser fnfc;
     fnfc.title(_("Load"));
     fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
-    fnfc.filter(_("System-exclusive dump\t*.syx"));
+    fnfc.filter(_("System-exclusive dump\t*.syx\n"
+                  "Standard MIDI file\t*.mid"));
     if (!last_directory_.empty())
         fnfc.directory(last_directory_.c_str());
 
@@ -139,7 +140,14 @@ void Main_Window::Impl::on_load()
         return;
 
     const char *filename = fnfc.filename();
-    do_load(filename);
+    switch (fnfc.filter_value()) {
+    case 0:
+        do_load(filename, File_Format::System_Exclusive);
+        break;
+    case 1:
+        do_load(filename, File_Format::Standard_Midi);
+        break;
+    }
 
     size_t filenamepos = strlen(filename);
     while (filenamepos > 0 && !is_path_separator(filename[filenamepos - 1]))
@@ -187,10 +195,30 @@ void Main_Window::Impl::on_dnd_load(const char *filename, void *user_data)
     P->do_load(filename);
 }
 
-bool Main_Window::Impl::do_load(const char *filename)
+bool Main_Window::Impl::do_load(const char *filename, File_Format format)
 {
+    if (format == (File_Format)-1) {
+        const char *ext = fl_filename_ext(filename);
+        ext = ext ? ext : "";
+        if (!fl_utf_strcasecmp(ext, ".syx"))
+            format = File_Format::System_Exclusive;
+        else if (!fl_utf_strcasecmp(ext, ".mid"))
+            format = File_Format::Standard_Midi;
+    }
+
+    bool loaded = false;
     std::vector<Sysex_Event> event_sendlist;
-    if (!load_sysex_file(filename, event_sendlist)) {
+
+    switch (format) {
+    case File_Format::System_Exclusive:
+        loaded = load_sysex_file(filename, event_sendlist);
+        break;
+    case File_Format::Standard_Midi:
+        loaded = load_smf_file(filename, event_sendlist);
+        break;
+    }
+
+    if (!loaded) {
         fl_message_title(_("Error"));
         fl_alert("%s", _("Could not load the system-exclusive file."));
         return false;

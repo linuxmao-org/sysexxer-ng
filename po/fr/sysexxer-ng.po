@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 20:51+0100\n"
+"POT-Creation-Date: 2018-11-01 21:18+0100\n"
 "PO-Revision-Date: 2018-10-28 13:44+0100\n"
 "Last-Translator: Jean Pierre Cimalando <jp-dev@inbox.ru>\n"
 "Language-Team: French\n"
@@ -42,24 +42,24 @@ msgstr "@fileopen  Charger"
 msgid "@filesave  Save"
 msgstr "@filesave  Sauvegarder"
 
-#: sources/window_impl.cc:251
+#: sources/window_impl.cc:279
 msgid "@undo  Cancel"
 msgstr "@undo  Annuler"
 
-#: sources/window_impl.cc:171
+#: sources/window_impl.cc:179
 msgid "Confirm overwrite"
 msgstr "Confirmer l'écrasement"
 
-#: sources/window_impl.cc:195
+#: sources/window_impl.cc:223
 msgid "Could not load the system-exclusive file."
 msgstr "Impossible de charger le fichier system-exclusive"
 
-#: sources/window_impl.cc:212 sources/window_impl.cc:223
+#: sources/window_impl.cc:240 sources/window_impl.cc:251
 msgid "Could not save the system-exclusive file."
 msgstr "Impossible de sauvegarder le fichier system-exclusive"
 
-#: sources/window_impl.cc:194 sources/window_impl.cc:211
-#: sources/window_impl.cc:222
+#: sources/window_impl.cc:222 sources/window_impl.cc:239
+#: sources/window_impl.cc:250
 msgid "Error"
 msgstr "Erreur"
 
@@ -90,7 +90,7 @@ msgstr "Port de sortie MIDI"
 msgid "Max Transmission Rate"
 msgstr "Taux de transmission maximum"
 
-#: sources/window_impl.cc:172
+#: sources/window_impl.cc:180
 msgid "No"
 msgstr "Non"
 
@@ -118,7 +118,7 @@ msgstr ""
 "3. Transmettre, et désactiver Recevoir quand c'est fini.\n"
 "4. Sauvegarder le fichier system-exclusive."
 
-#: sources/window_impl.cc:157
+#: sources/window_impl.cc:165
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -138,7 +138,7 @@ msgstr ""
 "2. Connecter la sortie du logiciel à l'entrée MIDI.\n"
 "3. Envoyer, et attendre que ce soit fini."
 
-#: sources/system_exclusive.cc:587
+#: sources/system_exclusive.cc:588
 #, c-format
 msgid "Size %zu Manufacturer \"%s\""
 msgstr "Taille %zu Fabricant \"%s\""
@@ -163,24 +163,32 @@ msgstr "Sysexxer NG"
 msgid "Sysexxer Out"
 msgstr "Sortie Sysexxer"
 
-#: sources/window_impl.cc:134 sources/window_impl.cc:159
+#: sources/window_impl.cc:167
 msgid "System-exclusive dump\t*.syx"
 msgstr "Dump system-exclusive\t*.syx"
 
-#: sources/window_impl.cc:172
+#: sources/window_impl.cc:134
+msgid ""
+"System-exclusive dump\t*.syx\n"
+"Standard MIDI file\t*.mid"
+msgstr ""
+"Dump system-exclusive\t*.syx\n"
+"Fichier MIDI standard\t*.mid"
+
+#: sources/window_impl.cc:180
 msgid "The file already exists. Replace it?"
 msgstr "Le fichier existe déjà. L'écraser ?"
 
-#: sources/system_exclusive.cc:582
+#: sources/system_exclusive.cc:583
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: sources/window_impl.cc:315 sources/window_impl.cc:316
-#: sources/window_impl.cc:333 sources/window_impl.cc:361
+#: sources/window_impl.cc:343 sources/window_impl.cc:344
+#: sources/window_impl.cc:361 sources/window_impl.cc:389
 msgid "Virtual port"
 msgstr "Port virtuel"
 
-#: sources/window_impl.cc:172
+#: sources/window_impl.cc:180
 msgid "Yes"
 msgstr "Oui"
 
