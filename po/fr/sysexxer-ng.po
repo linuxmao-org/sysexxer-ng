@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-28 11:19+0100\n"
+"POT-Creation-Date: 2018-11-01 20:51+0100\n"
 "PO-Revision-Date: 2018-10-28 13:44+0100\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"Last-Translator: Jean Pierre Cimalando <jp-dev@inbox.ru>\n"
 "Language-Team: French\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -19,76 +19,92 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Fl_Button* btn_load
-#: sources/window.cxx:73
+#: sources/window.cxx:96
 msgid "@->  Send"
 msgstr "@->  Envoyer"
 
-#: sources/window.cxx:106
+#: sources/window.cxx:129
 msgid "@<-  Receive"
 msgstr "@<-  Recevoir"
 
-#: sources/window.cxx:68
+#. Fl_Box* lbl_midi_out
+#. Fl_Button* btn_midi_in
+#: sources/window.cxx:206 sources/window.cxx:209
+msgid "@DnArrow"
+msgstr ""
+
+#: sources/window.cxx:91
 msgid "@fileopen  Load"
 msgstr "@fileopen  Charger"
 
 #. Fl_Button* btn_receive
-#: sources/window.cxx:112
+#: sources/window.cxx:135
 msgid "@filesave  Save"
 msgstr "@filesave  Sauvegarder"
 
-#: sources/window_impl.cc:240
+#: sources/window_impl.cc:251
 msgid "@undo  Cancel"
 msgstr "@undo  Annuler"
 
-#: sources/window_impl.cc:166
+#: sources/window_impl.cc:171
 msgid "Confirm overwrite"
 msgstr "Confirmer l'écrasement"
 
-#: sources/window_impl.cc:184
+#: sources/window_impl.cc:195
 msgid "Could not load the system-exclusive file."
 msgstr "Impossible de charger le fichier system-exclusive"
 
-#: sources/window_impl.cc:201 sources/window_impl.cc:212
+#: sources/window_impl.cc:212 sources/window_impl.cc:223
 msgid "Could not save the system-exclusive file."
 msgstr "Impossible de sauvegarder le fichier system-exclusive"
 
-#: sources/window_impl.cc:183 sources/window_impl.cc:200
-#: sources/window_impl.cc:211
+#: sources/window_impl.cc:194 sources/window_impl.cc:211
+#: sources/window_impl.cc:222
 msgid "Error"
 msgstr "Erreur"
 
-#: sources/main.cc:40
+#: sources/main.cc:52
 msgid "Invalid arguments"
 msgstr "Arguments invalides"
 
-#: sources/window_impl.cc:127
+#: sources/window_impl.cc:132
 msgid "Load"
 msgstr "Charger"
 
-#: sources/window.cxx:145
+#. Fl_Button* btn_midi_out
+#: sources/window.cxx:212
+msgid "MIDI input port"
+msgstr "Port d'entrée MIDI"
+
+#: sources/window.cxx:168
 msgid "MIDI interface"
 msgstr "Interface MIDI"
 
 #. Fl_Box* o
-#: sources/window.cxx:149
+#: sources/window.cxx:216
+msgid "MIDI output port"
+msgstr "Port de sortie MIDI"
+
+#. Fl_Box* o
+#: sources/window.cxx:172
 msgid "Max Transmission Rate"
 msgstr "Taux de transmission maximum"
 
-#: sources/window_impl.cc:167
+#: sources/window_impl.cc:172
 msgid "No"
 msgstr "Non"
 
 #. Fl_Group* tab_recv
-#: sources/window.cxx:142
+#: sources/window.cxx:165
 msgid "Options"
 msgstr "Options"
 
 #. Fl_Group* tab_send
-#: sources/window.cxx:103
+#: sources/window.cxx:126
 msgid "Receive"
 msgstr "Recevoir"
 
-#: sources/window_impl.cc:106
+#: sources/window_impl.cc:109
 msgid ""
 "Receiving instructions\n"
 "1. Connect the MIDI output to software input.\n"
@@ -102,15 +118,15 @@ msgstr ""
 "3. Transmettre, et désactiver Recevoir quand c'est fini.\n"
 "4. Sauvegarder le fichier system-exclusive."
 
-#: sources/window_impl.cc:152
+#: sources/window_impl.cc:157
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: sources/window.cxx:66
+#: sources/window.cxx:88
 msgid "Send"
 msgstr "Envoyer"
 
-#: sources/window_impl.cc:101
+#: sources/window_impl.cc:104
 msgid ""
 "Sending instructions\n"
 "1. Load a system-exclusive file.\n"
@@ -139,8 +155,7 @@ msgstr "Entrée MIDI Sysexxer"
 msgid "Sysexxer MIDI out"
 msgstr "Sortie MIDI Sysexxer"
 
-#. Fl_Tabs* tabs
-#: sources/main.cc:44 sources/window.cxx:176
+#: sources/main.cc:60 sources/window.cxx:80
 msgid "Sysexxer NG"
 msgstr "Sysexxer NG"
 
@@ -148,11 +163,11 @@ msgstr "Sysexxer NG"
 msgid "Sysexxer Out"
 msgstr "Sortie Sysexxer"
 
-#: sources/window_impl.cc:129 sources/window_impl.cc:154
+#: sources/window_impl.cc:134 sources/window_impl.cc:159
 msgid "System-exclusive dump\t*.syx"
 msgstr "Dump system-exclusive\t*.syx"
 
-#: sources/window_impl.cc:167
+#: sources/window_impl.cc:172
 msgid "The file already exists. Replace it?"
 msgstr "Le fichier existe déjà. L'écraser ?"
 
@@ -160,11 +175,16 @@ msgstr "Le fichier existe déjà. L'écraser ?"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: sources/window_impl.cc:167
+#: sources/window_impl.cc:315 sources/window_impl.cc:316
+#: sources/window_impl.cc:333 sources/window_impl.cc:361
+msgid "Virtual port"
+msgstr "Port virtuel"
+
+#: sources/window_impl.cc:172
 msgid "Yes"
 msgstr "Oui"
 
 #. Fl_Box* lbl_sendrate
-#: sources/window.cxx:169
+#: sources/window.cxx:192
 msgid "kb/s"
 msgstr "kb/s"
