@@ -67,7 +67,17 @@ private:
   static void cb_val_sendrate(Fl_Slider*, void*);
 public:
   Fl_Box *lbl_sendrate;
+  Fl_Box *lbl_midi_in;
+  Fl_Box *lbl_midi_out;
+  Fl_Button *btn_midi_in;
 private:
+  inline void cb_btn_midi_in_i(Fl_Button*, void*);
+  static void cb_btn_midi_in(Fl_Button*, void*);
+public:
+  Fl_Button *btn_midi_out;
+private:
+  inline void cb_btn_midi_out_i(Fl_Button*, void*);
+  static void cb_btn_midi_out(Fl_Button*, void*);
   struct Impl;
   std::unique_ptr<Impl> P; 
 public:

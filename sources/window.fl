@@ -15,9 +15,9 @@ decl {\#include "window_impl.cc"} {private global
 }
 
 widget_class Main_Window {open
-  xywh {161 204 465 250} type Double visible
+  xywh {120 180 465 250} type Double visible
 } {
-  decl {static int const width = 465, height = 250;} {selected public local
+  decl {static int const width = 465, height = 250;} {public local
   }
   code {P.reset(new Impl);} {}
   Function {~Main_Window()} {} {
@@ -35,7 +35,7 @@ widget_class Main_Window {open
     xywh {0 0 465 250}
   } {
     Fl_Group tab_send {
-      label Send open
+      label Send open selected
       xywh {0 25 465 225} box THIN_UP_FRAME labelsize 12
     } {
       Fl_Button btn_load {
@@ -96,7 +96,7 @@ widget_class Main_Window {open
       }
       Fl_Box {} {
         label {Max Transmission Rate}
-        xywh {10 65 180 25} labelsize 12 align 20
+        xywh {10 125 180 25} labelsize 12 align 20
       }
       Fl_Choice cb_midi_interface {
         callback {P->on_change_midi_interface();} open
@@ -104,14 +104,38 @@ widget_class Main_Window {open
       } {}
       Fl_Slider val_sendrate {
         callback {P->on_change_send_rate();}
-        xywh {225 65 100 25} type Horizontal labelsize 12 align 8
+        xywh {225 125 100 25} type Horizontal labelsize 12 align 8
       }
       Fl_Box lbl_sendrate {
-        xywh {325 65 55 25} box DOWN_BOX labelsize 12
+        xywh {325 125 55 25} box DOWN_BOX labelsize 12
       }
       Fl_Box {} {
         label {kb/s}
-        xywh {380 65 55 25} labelsize 12
+        xywh {385 125 55 25} labelsize 12 align 20
+      }
+      Fl_Box lbl_midi_in {
+        xywh {225 65 155 25} box DOWN_BOX labelsize 12 align 84
+      }
+      Fl_Box lbl_midi_out {
+        xywh {225 95 155 25} box DOWN_BOX labelsize 12 align 84
+      }
+      Fl_Button btn_midi_in {
+        label {@DnArrow}
+        callback {P->ask_midi_in();}
+        xywh {385 65 25 25}
+      }
+      Fl_Button btn_midi_out {
+        label {@DnArrow}
+        callback {P->ask_midi_out();}
+        xywh {385 95 25 25}
+      }
+      Fl_Box {} {
+        label {MIDI input port}
+        xywh {10 65 180 25} labelsize 12 align 20
+      }
+      Fl_Box {} {
+        label {MIDI output port}
+        xywh {10 95 180 25} labelsize 12 align 20
       }
     }
   }

@@ -35,6 +35,9 @@ struct Main_Window::Impl {
     bool do_save(const char *filename);
     void on_receive(bool enable);
     void on_change_midi_interface();
+    void after_change_midi_interface();
+    void ask_midi_in();
+    void ask_midi_out();
     void on_change_send_rate();
     void update_event_list_display(int mode);
     void update_event_data_display(int mode);
@@ -73,15 +76,13 @@ void Main_Window::Impl::init(Main_Window *Q)
             midi.switch_api(api);
     }
 
-    midi.open_input_port(~0u);
-    midi.open_output_port(~0u);
-
     for (size_t i = 0, n = compiled_midi_api_count(); i < n; ++i) {
         RtMidi::Api api = compiled_midi_api_by_index(i);
         const char *name = midi_api_name(api);
         Q->cb_midi_interface->add(name);
     }
     Q->cb_midi_interface->value(compiled_midi_api_index(midi.current_api()));
+    after_change_midi_interface();
 
     Q->val_sendrate->range(Send_Rate_Min, Send_Rate_Max);
     long send_rate = settings.GetLongValue("", "max-transmission-rate", Send_Rate_Default);
@@ -287,12 +288,83 @@ void Main_Window::Impl::on_change_midi_interface()
 
     Midi_Interface &midi = Midi_Interface::instance();
     midi.switch_api(api);
-    midi.open_input_port(~0u);
-    midi.open_output_port(~0u);
+    after_change_midi_interface();
 
     CSimpleIni &settings = Config::get_settings();
     settings.SetValue("", "midi-interface", midi_api_id(midi.current_api()));
     Config::save_settings();
+}
+
+void Main_Window::Impl::after_change_midi_interface()
+{
+    Midi_Interface &midi = Midi_Interface::instance();
+
+    if (midi.supports_virtual_port()) {
+        midi.open_output_port(~0u);
+        midi.open_input_port(~0u);
+        Q->lbl_midi_out->label(_("Virtual port"));
+        Q->lbl_midi_in->label(_("Virtual port"));
+    }
+    else {
+        Q->lbl_midi_out->label("");
+        Q->lbl_midi_in->label("");
+    }
+}
+
+void Main_Window::Impl::ask_midi_in()
+{
+    int x = Q->btn_midi_in->x();
+    int y = Q->btn_midi_in->y() + Q->btn_midi_in->h();
+
+    Midi_Interface &midi = Midi_Interface::instance();
+    std::vector<Fl_Menu_Item> menu_list;
+
+    if (midi.supports_virtual_port())
+        menu_list.push_back(Fl_Menu_Item{_("Virtual port"), 0, nullptr, (void *)~(uintptr_t)0, FL_MENU_DIVIDER});
+
+    std::vector<std::string> in_ports = midi.get_real_input_ports();
+    for (size_t i = 0, n = in_ports.size(); i < n; ++i)
+        menu_list.push_back(Fl_Menu_Item{in_ports[i].c_str(), 0, nullptr, (void *)(uintptr_t)i});
+    menu_list.push_back(Fl_Menu_Item{nullptr});
+
+    for (Fl_Menu_Item &item : menu_list)
+        item.labelsize(12);
+
+    const Fl_Menu_Item *choice = menu_list[0].popup(x, y);
+    if (!choice)
+        return;
+
+    unsigned port = (unsigned)(uintptr_t)choice->user_data();
+    midi.open_input_port(port);
+    Q->lbl_midi_in->copy_label(choice->label());
+}
+
+void Main_Window::Impl::ask_midi_out()
+{
+    int x = Q->btn_midi_out->x();
+    int y = Q->btn_midi_out->y() + Q->btn_midi_out->h();
+
+    Midi_Interface &midi = Midi_Interface::instance();
+    std::vector<Fl_Menu_Item> menu_list;
+
+    if (midi.supports_virtual_port())
+        menu_list.push_back(Fl_Menu_Item{_("Virtual port"), 0, nullptr, (void *)~(uintptr_t)0, FL_MENU_DIVIDER});
+
+    std::vector<std::string> out_ports = midi.get_real_output_ports();
+    for (size_t i = 0, n = out_ports.size(); i < n; ++i)
+        menu_list.push_back(Fl_Menu_Item{out_ports[i].c_str(), 0, nullptr, (void *)(uintptr_t)i});
+    menu_list.push_back(Fl_Menu_Item{nullptr});
+
+    for (Fl_Menu_Item &item : menu_list)
+        item.labelsize(12);
+
+    const Fl_Menu_Item *choice = menu_list[0].popup(x, y);
+    if (!choice)
+        return;
+
+    unsigned port = (unsigned)(uintptr_t)choice->user_data();
+    midi.open_output_port(port);
+    Q->lbl_midi_out->copy_label(choice->label());
 }
 
 void Main_Window::Impl::on_change_send_rate()

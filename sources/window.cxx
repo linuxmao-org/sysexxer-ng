@@ -59,6 +59,20 @@ void Main_Window::cb_val_sendrate_i(Fl_Slider*, void*) {
 void Main_Window::cb_val_sendrate(Fl_Slider* o, void* v) {
   ((Main_Window*)(o->parent()->parent()->parent()))->cb_val_sendrate_i(o,v);
 }
+
+void Main_Window::cb_btn_midi_in_i(Fl_Button*, void*) {
+  P->ask_midi_in();
+}
+void Main_Window::cb_btn_midi_in(Fl_Button* o, void* v) {
+  ((Main_Window*)(o->parent()->parent()->parent()))->cb_btn_midi_in_i(o,v);
+}
+
+void Main_Window::cb_btn_midi_out_i(Fl_Button*, void*) {
+  P->ask_midi_out();
+}
+void Main_Window::cb_btn_midi_out(Fl_Button* o, void* v) {
+  ((Main_Window*)(o->parent()->parent()->parent()))->cb_btn_midi_out_i(o,v);
+}
 Main_Window::Main_Window(int X, int Y, int W, int H, const char *L)
   : Fl_Group(X, Y, W, H, L) {
 P.reset(new Impl);
@@ -154,7 +168,7 @@ P.reset(new Impl);
       o->labelsize(12);
       o->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
     } // Fl_Box* o
-    { Fl_Box* o = new Fl_Box(10, 65, 180, 25, _("Max Transmission Rate"));
+    { Fl_Box* o = new Fl_Box(10, 125, 180, 25, _("Max Transmission Rate"));
       o->labelsize(12);
       o->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
     } // Fl_Box* o
@@ -164,18 +178,43 @@ P.reset(new Impl);
       cb_midi_interface->textsize(12);
       cb_midi_interface->callback((Fl_Callback*)cb_cb_midi_interface);
     } // Fl_Choice* cb_midi_interface
-    { val_sendrate = new Fl_Slider(225, 65, 100, 25);
+    { val_sendrate = new Fl_Slider(225, 125, 100, 25);
       val_sendrate->type(1);
       val_sendrate->labelsize(12);
       val_sendrate->callback((Fl_Callback*)cb_val_sendrate);
       val_sendrate->align(Fl_Align(FL_ALIGN_RIGHT));
     } // Fl_Slider* val_sendrate
-    { lbl_sendrate = new Fl_Box(325, 65, 55, 25);
+    { lbl_sendrate = new Fl_Box(325, 125, 55, 25);
       lbl_sendrate->box(FL_DOWN_BOX);
       lbl_sendrate->labelsize(12);
     } // Fl_Box* lbl_sendrate
-    { Fl_Box* o = new Fl_Box(380, 65, 55, 25, _("kb/s"));
+    { Fl_Box* o = new Fl_Box(385, 125, 55, 25, _("kb/s"));
       o->labelsize(12);
+      o->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
+    } // Fl_Box* o
+    { lbl_midi_in = new Fl_Box(225, 65, 155, 25);
+      lbl_midi_in->box(FL_DOWN_BOX);
+      lbl_midi_in->labelsize(12);
+      lbl_midi_in->align(Fl_Align(68|FL_ALIGN_INSIDE));
+    } // Fl_Box* lbl_midi_in
+    { lbl_midi_out = new Fl_Box(225, 95, 155, 25);
+      lbl_midi_out->box(FL_DOWN_BOX);
+      lbl_midi_out->labelsize(12);
+      lbl_midi_out->align(Fl_Align(68|FL_ALIGN_INSIDE));
+    } // Fl_Box* lbl_midi_out
+    { btn_midi_in = new Fl_Button(385, 65, 25, 25, _("@DnArrow"));
+      btn_midi_in->callback((Fl_Callback*)cb_btn_midi_in);
+    } // Fl_Button* btn_midi_in
+    { btn_midi_out = new Fl_Button(385, 95, 25, 25, _("@DnArrow"));
+      btn_midi_out->callback((Fl_Callback*)cb_btn_midi_out);
+    } // Fl_Button* btn_midi_out
+    { Fl_Box* o = new Fl_Box(10, 65, 180, 25, _("MIDI input port"));
+      o->labelsize(12);
+      o->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
+    } // Fl_Box* o
+    { Fl_Box* o = new Fl_Box(10, 95, 180, 25, _("MIDI output port"));
+      o->labelsize(12);
+      o->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
     } // Fl_Box* o
     tab_options->end();
   } // Fl_Group* tab_options
