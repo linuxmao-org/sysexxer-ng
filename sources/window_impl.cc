@@ -4,6 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include "window.h"
+#include "dnd_hold_browser.h"
 #include "system_exclusive.h"
 #include "sysex_send.h"
 #include "utility.h"
@@ -30,6 +31,7 @@ struct Main_Window::Impl {
     void init(Main_Window *Q);
     void on_load();
     void on_save();
+    static void on_dnd_load(const char *filename, void *user_data);
     void on_send();
     bool do_load(const char *filename);
     bool do_save(const char *filename);
@@ -120,6 +122,8 @@ void Main_Window::Impl::init(Main_Window *Q)
 
     tsb_senddata_.text(std::string(strchr(send_text, '\n') - send_text, 'A').c_str());
     tsb_recvdata_.text(std::string(strchr(recv_text, '\n') - recv_text, 'A').c_str());
+
+    Q->br_sendlist->dnd_callback(&on_dnd_load, this);
 }
 
 void Main_Window::Impl::on_load()
@@ -175,6 +179,12 @@ void Main_Window::Impl::on_save()
     while (filenamepos > 0 && !is_path_separator(filename[filenamepos - 1]))
         --filenamepos;
     last_directory_.assign(filename.c_str(), filenamepos);
+}
+
+void Main_Window::Impl::on_dnd_load(const char *filename, void *user_data)
+{
+    Impl *P = (Impl *)user_data;
+    P->do_load(filename);
 }
 
 bool Main_Window::Impl::do_load(const char *filename)

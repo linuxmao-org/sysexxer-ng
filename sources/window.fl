@@ -5,13 +5,19 @@ i18n_include app_i18n.h
 i18n_function _
 header_name {.h}
 code_name {.cxx}
-decl {\#include <FL/Fl_Hold_Browser.H>} {public global
+decl {\#include "dnd_hold_browser.h"} {private global
 }
 
 decl {\#include <memory>} {public global
 }
 
 decl {\#include "window_impl.cc"} {private global
+}
+
+decl {class Dnd_Hold_Browser;} {public global
+}
+
+decl {class Fl_Hold_Browser;} {selected public global
 }
 
 widget_class Main_Window {open
@@ -35,7 +41,7 @@ widget_class Main_Window {open
     xywh {0 0 465 250}
   } {
     Fl_Group tab_send {
-      label Send open selected
+      label Send open
       xywh {0 25 465 225} box THIN_UP_FRAME labelsize 12
     } {
       Fl_Button btn_load {
@@ -51,7 +57,7 @@ widget_class Main_Window {open
       Fl_Browser br_sendlist {
         callback {P->update_event_data_display(1);}
         xywh {135 35 320 75} labelsize 12 textsize 12
-        class Fl_Hold_Browser
+        class Dnd_Hold_Browser
       }
       Fl_Text_Display txt_senddata {
         xywh {10 120 445 120} labelsize 12 textfont 4 textsize 12

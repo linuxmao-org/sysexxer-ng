@@ -3,8 +3,9 @@
 #ifndef window_h
 #define window_h
 #include <FL/Fl.H>
-#include <FL/Fl_Hold_Browser.H>
 #include <memory>
+class Dnd_Hold_Browser;
+class Fl_Hold_Browser;
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Tabs.H>
@@ -30,10 +31,10 @@ private:
   inline void cb_btn_send_i(Fl_Button*, void*);
   static void cb_btn_send(Fl_Button*, void*);
 public:
-  Fl_Hold_Browser *br_sendlist;
+  Dnd_Hold_Browser *br_sendlist;
 private:
-  inline void cb_br_sendlist_i(Fl_Hold_Browser*, void*);
-  static void cb_br_sendlist(Fl_Hold_Browser*, void*);
+  inline void cb_br_sendlist_i(Dnd_Hold_Browser*, void*);
+  static void cb_br_sendlist(Dnd_Hold_Browser*, void*);
 public:
   Fl_Text_Display *txt_senddata;
   Fl_Progress *pb_send;

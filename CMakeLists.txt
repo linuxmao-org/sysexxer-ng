@@ -29,6 +29,7 @@ add_executable(sysexxer-ng
   "sources/main.cc"
   "sources/config.cc"
   "sources/window.cxx"
+  "sources/dnd_hold_browser.cc"
   "sources/system_exclusive.cc"
   "sources/sysex_send.cc"
   "sources/utility.cc"

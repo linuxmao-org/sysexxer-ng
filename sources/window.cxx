@@ -2,6 +2,7 @@
 
 #include "app_i18n.h"
 #include "window.h"
+#include "dnd_hold_browser.h"
 #include "window_impl.cc"
 
 void Main_Window::cb_btn_load_i(Fl_Button*, void*) {
@@ -18,10 +19,10 @@ void Main_Window::cb_btn_send(Fl_Button* o, void* v) {
   ((Main_Window*)(o->parent()->parent()->parent()))->cb_btn_send_i(o,v);
 }
 
-void Main_Window::cb_br_sendlist_i(Fl_Hold_Browser*, void*) {
+void Main_Window::cb_br_sendlist_i(Dnd_Hold_Browser*, void*) {
   P->update_event_data_display(1);
 }
-void Main_Window::cb_br_sendlist(Fl_Hold_Browser* o, void* v) {
+void Main_Window::cb_br_sendlist(Dnd_Hold_Browser* o, void* v) {
   ((Main_Window*)(o->parent()->parent()->parent()))->cb_br_sendlist_i(o,v);
 }
 
@@ -97,7 +98,7 @@ P.reset(new Impl);
       btn_send->callback((Fl_Callback*)cb_btn_send);
       btn_send->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
     } // Fl_Button* btn_send
-    { br_sendlist = new Fl_Hold_Browser(135, 35, 320, 75);
+    { br_sendlist = new Dnd_Hold_Browser(135, 35, 320, 75);
       br_sendlist->box(FL_NO_BOX);
       br_sendlist->color(FL_BACKGROUND2_COLOR);
       br_sendlist->selection_color(FL_SELECTION_COLOR);
@@ -109,7 +110,7 @@ P.reset(new Impl);
       br_sendlist->callback((Fl_Callback*)cb_br_sendlist);
       br_sendlist->align(Fl_Align(FL_ALIGN_BOTTOM));
       br_sendlist->when(FL_WHEN_RELEASE_ALWAYS);
-    } // Fl_Hold_Browser* br_sendlist
+    } // Dnd_Hold_Browser* br_sendlist
     { txt_senddata = new Fl_Text_Display(10, 120, 445, 120);
       txt_senddata->labelsize(12);
       txt_senddata->textfont(4);
