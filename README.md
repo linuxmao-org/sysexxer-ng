@@ -11,6 +11,14 @@ Documentation page (in French): http://linuxmao.org/Sysexxer-NG
 
 ### Debian Strech
 
-Build depends are: cmake, gettext, libasound2-dev, libfltk1.3-dev, and libjack-jackd2-dev or libjack-dev
+Build dependencies are: cmake, gettext, libasound2-dev, libfltk1.3-dev, and libjack-jackd2-dev or libjack-dev
 
-To launch the build, you can use: cmake -DCMAKE_BUILD_TYPE=Release
+To launch the build, you can use:
+
+```
+git clone --recursive https://github.com/linuxmao-org/sysexxer-ng.git
+mkdir sysexxer-ng/build
+cd sysexxer-ng/build
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+cmake --build .
+```
