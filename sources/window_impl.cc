@@ -24,6 +24,8 @@ struct Main_Window::Impl {
     std::vector<Sysex_Event> event_recvlist_;
     Fl_Text_Buffer txb_recvdata_;
     Fl_Text_Buffer tsb_recvdata_;
+    Fl_Text_Buffer txb_about_;
+    Fl_Text_Buffer tsb_about_;
     bool receive_first_ = false;
     std::unique_ptr<Ring_Buffer> receive_buffer_;
     std::vector<uint8_t> receive_tmpbuf_;
@@ -123,6 +125,25 @@ void Main_Window::Impl::init(Main_Window *Q)
     tsb_senddata_.text(std::string(strchr(send_text, '\n') - send_text, 'A').c_str());
     tsb_recvdata_.text(std::string(strchr(recv_text, '\n') - recv_text, 'A').c_str());
 
+    ///
+    Q->txt_about->buffer(txb_about_);
+    Q->txt_about->wrap_mode(Fl_Text_Display::WRAP_AT_BOUNDS, 0);
+
+    const char *about_text = _(u8""
+        "Sysexxer-NG is a universal tool to exchange MIDI system-exclusive data.\n"
+        "\n"
+        "This free program is published under the terms of the Boost Software License 1.0.\n"
+        "\n"
+        "Version %s © 2018-2019\n"
+        "Author: Jean Pierre Cimalando\n"
+        "Contributor: Olivier Humbert");
+
+    txb_about_.text(astrprintf(about_text, PROJECT_VERSION).c_str());
+    Q->txt_about->highlight_data(&tsb_about_, style_table, style_count, 'A', 0, 0);
+
+    tsb_about_.text(std::string(strchr(about_text, ' ') - about_text, 'A').c_str());
+
+    ///
     Q->br_sendlist->dnd_callback(&on_dnd_load, this);
 }
 

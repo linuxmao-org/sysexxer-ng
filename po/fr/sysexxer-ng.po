@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 21:18+0100\n"
+"POT-Creation-Date: 2019-03-14 18:58+0100\n"
 "PO-Revision-Date: 2018-10-28 13:44+0100\n"
 "Last-Translator: Jean Pierre Cimalando <jp-dev@inbox.ru>\n"
 "Language-Team: French\n"
@@ -19,47 +19,52 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Fl_Button* btn_load
-#: sources/window.cxx:96
+#: sources/window.cxx:104
 msgid "@->  Send"
 msgstr "@->  Envoyer"
 
-#: sources/window.cxx:129
+#: sources/window.cxx:137
 msgid "@<-  Receive"
 msgstr "@<-  Recevoir"
 
 #. Fl_Box* lbl_midi_out
 #. Fl_Button* btn_midi_in
-#: sources/window.cxx:206 sources/window.cxx:209
+#: sources/window.cxx:214 sources/window.cxx:217
 msgid "@DnArrow"
 msgstr ""
 
-#: sources/window.cxx:91
+#: sources/window.cxx:99
 msgid "@fileopen  Load"
 msgstr "@fileopen  Charger"
 
 #. Fl_Button* btn_receive
-#: sources/window.cxx:135
+#: sources/window.cxx:143
 msgid "@filesave  Save"
 msgstr "@filesave  Sauvegarder"
 
-#: sources/window_impl.cc:279
+#: sources/window_impl.cc:300
 msgid "@undo  Cancel"
 msgstr "@undo  Annuler"
 
-#: sources/window_impl.cc:179
+#. Fl_Group* tab_options
+#: sources/window.cxx:230
+msgid "About"
+msgstr "À propos"
+
+#: sources/window_impl.cc:200
 msgid "Confirm overwrite"
 msgstr "Confirmer l'écrasement"
 
-#: sources/window_impl.cc:223
+#: sources/window_impl.cc:244
 msgid "Could not load the system-exclusive file."
 msgstr "Impossible de charger le fichier system-exclusive"
 
-#: sources/window_impl.cc:240 sources/window_impl.cc:251
+#: sources/window_impl.cc:261 sources/window_impl.cc:272
 msgid "Could not save the system-exclusive file."
 msgstr "Impossible de sauvegarder le fichier system-exclusive"
 
-#: sources/window_impl.cc:222 sources/window_impl.cc:239
-#: sources/window_impl.cc:250
+#: sources/window_impl.cc:243 sources/window_impl.cc:260
+#: sources/window_impl.cc:271
 msgid "Error"
 msgstr "Erreur"
 
@@ -67,44 +72,44 @@ msgstr "Erreur"
 msgid "Invalid arguments"
 msgstr "Arguments invalides"
 
-#: sources/window_impl.cc:132
+#: sources/window_impl.cc:153
 msgid "Load"
 msgstr "Charger"
 
 #. Fl_Button* btn_midi_out
-#: sources/window.cxx:212
+#: sources/window.cxx:220
 msgid "MIDI input port"
 msgstr "Port d'entrée MIDI"
 
-#: sources/window.cxx:168
+#: sources/window.cxx:176
 msgid "MIDI interface"
 msgstr "Interface MIDI"
 
 #. Fl_Box* o
-#: sources/window.cxx:216
+#: sources/window.cxx:224
 msgid "MIDI output port"
 msgstr "Port de sortie MIDI"
 
 #. Fl_Box* o
-#: sources/window.cxx:172
+#: sources/window.cxx:180
 msgid "Max Transmission Rate"
 msgstr "Taux de transmission maximum"
 
-#: sources/window_impl.cc:180
+#: sources/window_impl.cc:201
 msgid "No"
 msgstr "Non"
 
 #. Fl_Group* tab_recv
-#: sources/window.cxx:165
+#: sources/window.cxx:173
 msgid "Options"
 msgstr "Options"
 
 #. Fl_Group* tab_send
-#: sources/window.cxx:126
+#: sources/window.cxx:134
 msgid "Receive"
 msgstr "Recevoir"
 
-#: sources/window_impl.cc:109
+#: sources/window_impl.cc:111
 msgid ""
 "Receiving instructions\n"
 "1. Connect the MIDI output to software input.\n"
@@ -118,15 +123,15 @@ msgstr ""
 "3. Transmettre, et désactiver Recevoir quand c'est fini.\n"
 "4. Sauvegarder le fichier system-exclusive."
 
-#: sources/window_impl.cc:165
+#: sources/window_impl.cc:186
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: sources/window.cxx:88
+#: sources/window.cxx:96
 msgid "Send"
 msgstr "Envoyer"
 
-#: sources/window_impl.cc:104
+#: sources/window_impl.cc:106
 msgid ""
 "Sending instructions\n"
 "1. Load a system-exclusive file.\n"
@@ -155,7 +160,7 @@ msgstr "Entrée MIDI Sysexxer"
 msgid "Sysexxer MIDI out"
 msgstr "Sortie MIDI Sysexxer"
 
-#: sources/main.cc:60 sources/window.cxx:80
+#: sources/main.cc:60 sources/window.cxx:88
 msgid "Sysexxer NG"
 msgstr "Sysexxer NG"
 
@@ -163,11 +168,32 @@ msgstr "Sysexxer NG"
 msgid "Sysexxer Out"
 msgstr "Sortie Sysexxer"
 
-#: sources/window_impl.cc:167
+#: sources/window_impl.cc:132
+#, c-format
+msgid ""
+"Sysexxer-NG is a universal tool to exchange MIDI system-exclusive data.\n"
+"\n"
+"This free program is published under the terms of the Boost Software License "
+"1.0.\n"
+"\n"
+"Version %s © 2018-2019\n"
+"Author: Jean Pierre Cimalando\n"
+"Contributor: Olivier Humbert"
+msgstr ""
+"Sysexxer-NG est un outil universel d'échange de données MIDI exclusives-système.\n"
+"\n"
+"Ce logiciel libre est publié sous les termes de la licence Boost Software License "
+"1.0.\n"
+"\n"
+"Version %s © 2018-2019\n"
+"Auteur : Jean Pierre Cimalando\n"
+"Contributeur : Olivier Humbert"
+
+#: sources/window_impl.cc:188
 msgid "System-exclusive dump\t*.syx"
 msgstr "Dump system-exclusive\t*.syx"
 
-#: sources/window_impl.cc:134
+#: sources/window_impl.cc:155
 msgid ""
 "System-exclusive dump\t*.syx\n"
 "Standard MIDI file\t*.mid"
@@ -175,7 +201,7 @@ msgstr ""
 "Dump system-exclusive\t*.syx\n"
 "Fichier MIDI standard\t*.mid"
 
-#: sources/window_impl.cc:180
+#: sources/window_impl.cc:201
 msgid "The file already exists. Replace it?"
 msgstr "Le fichier existe déjà. L'écraser ?"
 
@@ -183,16 +209,26 @@ msgstr "Le fichier existe déjà. L'écraser ?"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: sources/window_impl.cc:343 sources/window_impl.cc:344
-#: sources/window_impl.cc:361 sources/window_impl.cc:389
+#: sources/window_impl.cc:364 sources/window_impl.cc:365
+#: sources/window_impl.cc:382 sources/window_impl.cc:410
 msgid "Virtual port"
 msgstr "Port virtuel"
 
-#: sources/window_impl.cc:180
+#. Hyperlink_Button* o
+#: sources/window.cxx:250
+msgid "Visit the home page"
+msgstr "Visiter la page d'accueil"
+
+#: sources/window_impl.cc:201
 msgid "Yes"
 msgstr "Oui"
 
+#. Fl_Text_Display* txt_about
+#: sources/window.cxx:238
+msgid "https://github.com/linuxmao-org/sysexxer-ng"
+msgstr ""
+
 #. Fl_Box* lbl_sendrate
-#: sources/window.cxx:192
+#: sources/window.cxx:200
 msgid "kb/s"
 msgstr "kb/s"

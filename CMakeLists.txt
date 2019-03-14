@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.3)
-project(sysexxer-ng VERSION 0.1 LANGUAGES C CXX)
+cmake_minimum_required(VERSION "3.3")
+project(sysexxer-ng VERSION "1.0" LANGUAGES C CXX)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
@@ -30,13 +30,15 @@ add_executable(sysexxer-ng
   "sources/config.cc"
   "sources/window.cxx"
   "sources/dnd_hold_browser.cc"
+  "sources/hyperlink_button.cc"
   "sources/system_exclusive.cc"
   "sources/sysex_send.cc"
   "sources/utility.cc"
   "sources/device/midi.cc"
   "sources/device/midi_apis.cc")
 target_compile_definitions(sysexxer-ng
-  PRIVATE "LOCALE_DIRECTORY=\"${CMAKE_INSTALL_FULL_LOCALEDIR}\"")
+  PRIVATE "LOCALE_DIRECTORY=\"${CMAKE_INSTALL_FULL_LOCALEDIR}\""
+  PRIVATE "PROJECT_VERSION=\"${PROJECT_VERSION}\"")
 target_include_directories(sysexxer-ng
   PRIVATE "sources" "${FLTK_INCLUDE_DIR}")
 target_link_libraries(sysexxer-ng PRIVATE "${FLTK_LIBRARIES}")
