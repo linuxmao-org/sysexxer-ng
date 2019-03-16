@@ -53,9 +53,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+#if FL_API_VERSION >= 10303
     Fl_Pixmap icon(Icon::sysexxer_ng);
     Fl_RGB_Image image(&icon);
     Fl_Window::default_icon(&image);
+#endif
 
     Fl_Double_Window frame(Main_Window::width, Main_Window::height, _("Sysexxer NG"));
     Main_Window contents(0, 0, Main_Window::width, Main_Window::height);
