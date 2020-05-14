@@ -3,6 +3,8 @@
 //    (See accompanying file LICENSE or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+#pragma once
+#include <string>
 #include <memory>
 #include <type_traits>
 #include <stdlib.h>
