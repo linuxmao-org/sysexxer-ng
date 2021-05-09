@@ -111,7 +111,7 @@ void Midi_Interface::open_input_port(unsigned port)
     RtMidiIn &client = *input_client_;
     close_input_port();
 
-    std::string name = _("Sysexxer MIDI in");
+    std::string name = /*_*/("Sysexxer MIDI in");
     if (port == ~0u) {
         client.openVirtualPort(name);
         has_open_input_port_ = true;
@@ -127,7 +127,7 @@ void Midi_Interface::open_output_port(unsigned port)
     RtMidiOut &client = *output_client_;
     close_output_port();
 
-    std::string name = _("Sysexxer MIDI out");
+    std::string name = /*_*/("Sysexxer MIDI out");
     if (port == ~0u) {
         client.openVirtualPort(name);
         has_open_output_port_ = true;
